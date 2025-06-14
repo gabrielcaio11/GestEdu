@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.gabrielcaio.gestedu.controllers.mapper.StudentMapper;
 import br.com.gabrielcaio.gestedu.model.student.CreateStudentDTO;
@@ -27,12 +28,29 @@ public class StudentController {
     @PostMapping
     @Operation(summary = "Criar um novo student", description = "Cria um novo student com base nos dados fornecidos.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "422", description = "Matrícula já existe}"),
-            @ApiResponse(responseCode = "422", description = "Email já existe"),
+            @ApiResponse(responseCode = "201", description = "Estudante criado com sucesso"),
+            @ApiResponse(responseCode = "422", description = "Dados inválidos"),
+            @ApiResponse(responseCode = "422", description = "Registration cannot be null or empty"),
+            @ApiResponse(responseCode = "422", description = "Registration already exists"),
+            @ApiResponse(responseCode = "422", description = "CPF cannot be null or empty"),
+            @ApiResponse(responseCode = "422", description = "CPF already exists"),
+            @ApiResponse(responseCode = "422", description = "Email cannot be null or empty"),
+            @ApiResponse(responseCode = "422", description = "Email already exists"),
+            @ApiResponse(responseCode = "422", description = "Phone cannot be null or empty"),
+            @ApiResponse(responseCode = "422", description = "Phone already exists"),
     })
     public ResponseEntity<ResponseStudentDTO> create(@RequestBody CreateStudentDTO dto) {
         var student = studentService.create(dto);
         var response = studentMapper.toDTO(student);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        
+        var uri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(student.getId())
+                .toUri();
+                
+        return ResponseEntity
+                .created(uri)
+                .body(response);
     }
 }
