@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.gabrielcaio.gestedu.mapper.StudentMapper;
+import br.com.gabrielcaio.gestedu.controllers.mapper.StudentMapper;
 import br.com.gabrielcaio.gestedu.model.student.CreateStudentDTO;
 import br.com.gabrielcaio.gestedu.model.student.ResponseStudentDTO;
 import br.com.gabrielcaio.gestedu.services.StudentService;
