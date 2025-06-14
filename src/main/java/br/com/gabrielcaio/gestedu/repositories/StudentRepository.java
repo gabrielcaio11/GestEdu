@@ -9,4 +9,6 @@ import br.com.gabrielcaio.gestedu.model.student.Student;
 public interface StudentRepository extends JpaRepository<Student, Long> {
     boolean existsByRegistration(String registration);
     boolean existsByEmail(String email);
+    boolean existsByCpf(String cpf);
+    boolean existsByPhoneNumber(String phoneNumber);
 } 
