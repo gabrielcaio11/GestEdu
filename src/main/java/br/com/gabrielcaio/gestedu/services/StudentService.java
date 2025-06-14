@@ -3,7 +3,7 @@ package br.com.gabrielcaio.gestedu.services;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.com.gabrielcaio.gestedu.mapper.StudentMapper;
+import br.com.gabrielcaio.gestedu.controllers.mapper.StudentMapper;
 import br.com.gabrielcaio.gestedu.model.student.CreateStudentDTO;
 import br.com.gabrielcaio.gestedu.model.student.Student;
 import br.com.gabrielcaio.gestedu.repositories.StudentRepository;
@@ -18,19 +18,19 @@ public class StudentService {
     private final StudentMapper studentMapper;
     private final ValidatorCreateStudent validatorCreateStudent;
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public Student create(CreateStudentDTO dto) {
 
-        // Transforma de dto para entidade
+        // MAp the DTO to the Student entity
         var student = studentMapper.toEntity(dto);
 
-        // validacao da criação do estudante
-        validatorCreateStudent.validate(student);
-
-        // chama o metodo para constrir o registration
+        // Build the registration for the student
         student.buildRegistration();
 
-        // retorna o estudante salvo
+        // Validate the student entity
+        validatorCreateStudent.validate(student);
+
+        // retorn the saved student entity
         return studentRepository.save(student);
     }
 
