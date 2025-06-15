@@ -4,7 +4,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,15 +43,15 @@ public class StudentController {
     @Operation(summary = "Criar um novo student", description = "Cria um novo student com base nos dados fornecidos.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Estudante criado com sucesso", content = @Content(schema = @Schema(implementation = ResponseStudentDTO.class))),
-            @ApiResponse(responseCode = "422", description = "Dados inválidos", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "422", description = "Registration cannot be null or empty", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "422", description = "Registration already exists", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "422", description = "CPF cannot be null or empty", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "422", description = "CPF already exists", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "422", description = "Email cannot be null or empty", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "422", description = "Email already exists", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "422", description = "Phone cannot be null or empty", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "422", description = "Phone already exists", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "422", description = "Dados inválidos", content = @Content(schema = @Schema(implementation = ErrorMessage.class))),
+            @ApiResponse(responseCode = "422", description = "Registration cannot be null or empty", content = @Content(schema = @Schema(implementation = ErrorMessage.class))),
+            @ApiResponse(responseCode = "422", description = "Registration already exists", content = @Content(schema = @Schema(implementation = ErrorMessage.class))),
+            @ApiResponse(responseCode = "422", description = "CPF cannot be null or empty", content = @Content(schema = @Schema(implementation = ErrorMessage.class))),
+            @ApiResponse(responseCode = "422", description = "CPF already exists", content = @Content(schema = @Schema(implementation = ErrorMessage.class))),
+            @ApiResponse(responseCode = "422", description = "Email cannot be null or empty", content = @Content(schema = @Schema(implementation = ErrorMessage.class))),
+            @ApiResponse(responseCode = "422", description = "Email already exists", content = @Content(schema = @Schema(implementation = ErrorMessage.class))),
+            @ApiResponse(responseCode = "422", description = "Phone cannot be null or empty", content = @Content(schema = @Schema(implementation = ErrorMessage.class))),
+            @ApiResponse(responseCode = "422", description = "Phone already exists", content = @Content(schema = @Schema(implementation = ErrorMessage.class))),
     })
     // #endregion
     public ResponseEntity<ResponseStudentDTO> create(@RequestBody CreateStudentDTO dto) {
@@ -119,7 +118,7 @@ public class StudentController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "404", description = "student não encontrado", content = @Content(schema = @Schema(implementation = ErrorMessage.class))),
             @ApiResponse(responseCode = "200", description = "Status do student atualizado com sucesso", content = @Content(schema = @Schema(implementation = ResponseStudentDTO.class))),
-            @ApiResponse(responseCode = "422", description = "Status inválido", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            @ApiResponse(responseCode = "422", description = "Status inválido", content = @Content(schema = @Schema(implementation = ErrorMessage.class)))
     })
     // #endregion
     public ResponseEntity<ResponseStudentDTO> updateStatus(
