@@ -1,5 +1,6 @@
 package br.com.gabrielcaio.gestedu.services;
 
+import java.util.Arrays;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,8 @@ import br.com.gabrielcaio.gestedu.controllers.error.ResourceNotFoundException;
 import br.com.gabrielcaio.gestedu.controllers.mapper.StudentMapper;
 import br.com.gabrielcaio.gestedu.model.student.CreateStudentDTO;
 import br.com.gabrielcaio.gestedu.model.student.Student;
+import br.com.gabrielcaio.gestedu.model.student.StudentStatus;
+import br.com.gabrielcaio.gestedu.model.student.UpdateStudentStatusDTO;
 import br.com.gabrielcaio.gestedu.repositories.StudentRepository;
 import br.com.gabrielcaio.gestedu.util.StudentRegistrationGenerator;
 import br.com.gabrielcaio.gestedu.validator.ValidatorCreateStudent;
@@ -41,13 +44,35 @@ public class StudentService {
         return studentRepository.save(student);
     }
 
+    @Transactional(readOnly = true)
     public Page<Student> findAll(Pageable pageable) {
         return studentRepository.findAll(pageable);
     }
 
+    @Transactional(readOnly = true)
     public Student getById(Long id) {
         return studentRepository.findById(id)
         .orElseThrow(() -> new ResourceNotFoundException("Student not found with id: " + id));
     }
-                
+
+    @Transactional(rollbackFor = Exception.class)
+    public Student updateStatus(Long id, UpdateStudentStatusDTO dto) {
+        var student = getById(id);
+        var status = getStatus(dto.getStatus());
+        student.updateStatus(status);
+        return studentRepository.save(student);
+    }
+
+    private StudentStatus getStatus(String status) {
+        isValidStatus(status);
+        return StudentStatus.valueOf(status);
+    }
+
+    private void isValidStatus(String status) {
+        final String upperStatus = status.toUpperCase();
+        Arrays.stream(StudentStatus.values())
+            .filter(s -> s.name().equals(upperStatus))
+            .findFirst()
+            .orElseThrow(() -> new IllegalArgumentException("Invalid status: " + upperStatus));
+    }
 }
