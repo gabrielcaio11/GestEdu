@@ -70,4 +70,8 @@ public class Student {
     public void statusActive() {
         this.status = StudentStatus.ACTIVE;
     }
+
+    public void updateStatus(StudentStatus status) {
+        this.status = status;
+    }
 } 

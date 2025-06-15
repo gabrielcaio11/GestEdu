@@ -1,11 +1,11 @@
 package br.com.gabrielcaio.gestedu.model.student;
 
 public enum StudentStatus {
-    ACTIVE("Ativo"),
-    INACTIVE("Inativo"),
-    PENDING("Pendente"),
-    GRADUATED("Formado"),
-    DROPPED_OUT("Desistente");
+    ACTIVE("ACTIVE"),
+    INACTIVE("INACTIVE"),
+    PENDING("PENDING"),
+    GRADUATED("GRADUATED"),
+    DROPPED_OUT("DROPPED_OUT");
 
     private final String description;
 
