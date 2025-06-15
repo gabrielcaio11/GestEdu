@@ -24,7 +24,7 @@ public class StudentRegistrationGenerator {
         int randomNumber1 = random.nextInt(90) + 10; // Gera número entre 10 e 99
         int randomNumber2 = random.nextInt(90) + 10; // Gera número entre 10 e 99
         
-        String registration = String.format("%d%d-%d%d", 
+        String registration = String.format("%d%d%d%d", 
             LocalDate.now().getYear(),
             student.getName().length(),
             randomNumber1,

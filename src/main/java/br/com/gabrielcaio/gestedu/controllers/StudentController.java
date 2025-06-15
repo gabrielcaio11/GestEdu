@@ -24,6 +24,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,6 +33,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 @RestController
 @RequestMapping("/gest-edu/students")
 @RequiredArgsConstructor
+@Tag(name = "Student", description = "Operações relacionadas a Student")
 public class StudentController {
 
     private final StudentService studentService;
@@ -116,7 +118,7 @@ public class StudentController {
     @Operation(summary = "Atualizar status do student", description = "Atualiza o status do student com base no ID fornecido.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "404", description = "student não encontrado", content = @Content(schema = @Schema(implementation = ErrorMessage.class))),
-            @ApiResponse(responseCode = "200", description = "Status do estudante atualizado com sucesso", content = @Content(schema = @Schema(implementation = ResponseStudentDTO.class))),
+            @ApiResponse(responseCode = "200", description = "Status do student atualizado com sucesso", content = @Content(schema = @Schema(implementation = ResponseStudentDTO.class))),
             @ApiResponse(responseCode = "422", description = "Status inválido", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
     // #endregion
@@ -127,4 +129,20 @@ public class StudentController {
         var response = studentMapper.toDTO(student);
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/search")
+    // #region
+    @Operation(summary = "Buscar student por matricula", description = "Busca estudantes pelo nome fornecido.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "student encontrado", content = @Content(schema = @Schema(implementation = ResponseStudentDTO.class))),
+            @ApiResponse(responseCode = "404", description = "Nenhum student encontrado com o registration fornecido", content = @Content(schema = @Schema(implementation = ErrorMessage.class)))
+    })
+    // #endregion
+    public ResponseEntity<ResponseStudentDTO> searchByRegistration(
+            @Parameter(description = "Matrícula do estudante a ser buscado", required = true, example = "2025134019") @RequestParam String registration) {
+        var student = studentService.searchByRegistration(registration);
+        var response = studentMapper.toDTO(student);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
 }
