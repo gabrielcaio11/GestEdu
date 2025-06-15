@@ -3,6 +3,7 @@ package br.com.gabrielcaio.gestedu.validator;
 import org.springframework.stereotype.Component;
 
 import br.com.gabrielcaio.gestedu.controllers.error.BusinessException;
+import br.com.gabrielcaio.gestedu.controllers.error.ResourceAlreadyExistsException;
 import br.com.gabrielcaio.gestedu.model.course.Course;
 import br.com.gabrielcaio.gestedu.repositories.CourseRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,7 @@ public class ValidatorCreateCourse {
             throw new IllegalArgumentException("Course name cannot be null or empty");
         }
         if (courseRepository.existsByName(name)) {
-            throw new BusinessException("Course with name " + name + " already exists");
+            throw new ResourceAlreadyExistsException("Course with name " + name + " already exists");
         }
     }
 
@@ -32,7 +33,7 @@ public class ValidatorCreateCourse {
             throw new IllegalArgumentException("Course code cannot be null or empty");
         }
         if (courseRepository.existsByCode(code)) {
-            throw new BusinessException("Course with code " + code + " already exists");
+            throw new ResourceAlreadyExistsException("Course with code " + code + " already exists");
         }
     }
 
