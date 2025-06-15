@@ -27,6 +27,9 @@ public class StudentService {
         // Map the DTO to the Student entity
         var student = studentMapper.toEntity(dto);
 
+        // Set the initial status of the student
+        student.statusActive();
+
         // Generate the registration for the student
         registrationGenerator.generateRegistration(student);
 

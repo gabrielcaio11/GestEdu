@@ -10,6 +10,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -53,6 +55,10 @@ public class Student {
     @Column(name = "phone_number")
     private String phoneNumber;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, name = "status")
+    private StudentStatus status;
+
     @Column(updatable = false, name = "created_at")
     @CreatedDate
     private LocalDateTime createdAt;
@@ -60,4 +66,8 @@ public class Student {
     @Column(name = "updated_at")
     @LastModifiedDate
     private LocalDateTime updatedAt;
+
+    public void statusActive() {
+        this.status = StudentStatus.ACTIVE;
+    }
 } 

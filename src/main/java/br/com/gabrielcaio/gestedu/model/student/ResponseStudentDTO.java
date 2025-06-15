@@ -32,4 +32,7 @@ public class ResponseStudentDTO {
 
     @Schema(description = "Número de telefone do estudante", example = "(11) 98765-4321")
     private String phoneNumber;
+
+    @Schema(description = "Status do estudante", example = "ACTIVE")
+    private StudentStatus status;
 }
