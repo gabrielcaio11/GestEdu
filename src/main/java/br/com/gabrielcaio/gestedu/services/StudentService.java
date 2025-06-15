@@ -2,6 +2,7 @@ package br.com.gabrielcaio.gestedu.services;
 
 import java.util.Arrays;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -74,5 +75,12 @@ public class StudentService {
             .filter(s -> s.name().equals(upperStatus))
             .findFirst()
             .orElseThrow(() -> new IllegalArgumentException("Invalid status: " + upperStatus));
+    }
+
+    @Transactional(readOnly = true)
+    public Student searchByRegistration(String registration) {
+        return studentRepository.findByRegistration(registration)
+                .orElseThrow(() -> new ResourceNotFoundException("No student found with registration: " + registration));
+       
     }
 }
