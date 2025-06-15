@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import br.com.gabrielcaio.gestedu.controllers.error.ErrorMessage;
 import br.com.gabrielcaio.gestedu.controllers.mapper.StudentMapper;
 import br.com.gabrielcaio.gestedu.model.student.CreateStudentDTO;
 import br.com.gabrielcaio.gestedu.model.student.ResponseStudentDTO;
@@ -24,6 +25,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 
 @RestController
@@ -98,9 +100,7 @@ public class StudentController {
 
     @GetMapping
     //#region
-    @Operation(
-        summary = "Listar todos os estudante",
-        description = "Retorna uma lista paginada de todos os estudantes com nome e cursos associados."
+    @Operation(summary = "Listar todos os estudante",description = "Retorna uma lista paginada de todos os estudantes com nome e cursos associados."
     )
     @ApiResponses(value = {
             @ApiResponse(
@@ -124,5 +124,40 @@ public class StudentController {
 
         // retorna a pagina de estudante response
         return ResponseEntity.status(HttpStatus.OK).body(pageResponse);
+    }
+
+    @GetMapping("{id}/cursos" )
+    //#region
+    @Operation(summary = "Obter um student", description = "Retorna o student com base no ID fornecido."
+    )
+    @ApiResponses(value = {
+
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Estudante não encontrado",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorMessage.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Detalhes do Estudante encontrados",
+                    content = @Content(
+                            schema = @Schema(implementation = ResponseStudentDTO.class)
+                    )
+            ),
+    })
+    //#endregion
+    public ResponseEntity<ResponseStudentDTO> getById(
+            @Parameter(description = "ID do student a ser buscado", required = true, example = "1") @PathVariable Long id
+    ) {
+        // chama o service para buscar o estudante
+        var estudanteWithCurso = studentService.getById(id);
+
+        // tranforma de estudante para estudante response
+        var response = studentMapper.toDTO(estudanteWithCurso);
+
+        // retorna o estudante response
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }
