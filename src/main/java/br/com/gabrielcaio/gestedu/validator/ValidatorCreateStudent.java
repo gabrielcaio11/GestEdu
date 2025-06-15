@@ -3,6 +3,7 @@ package br.com.gabrielcaio.gestedu.validator;
 import org.springframework.stereotype.Component;
 
 import br.com.gabrielcaio.gestedu.controllers.error.BusinessException;
+import br.com.gabrielcaio.gestedu.controllers.error.ResourceAlreadyExistsException;
 import br.com.gabrielcaio.gestedu.model.student.Student;
 import br.com.gabrielcaio.gestedu.repositories.StudentRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +28,7 @@ public class ValidatorCreateStudent {
         }
 
         if (studentRepository.existsByRegistration(student.getRegistration())) {
-            throw new BusinessException("Registration already exists");
+            throw new ResourceAlreadyExistsException("Registration already exists");
             
         }
     }
@@ -39,7 +40,7 @@ public class ValidatorCreateStudent {
         }
 
         if (studentRepository.existsByCpf(student.getCpf())) {
-            throw new BusinessException("CPF already exists");
+            throw new ResourceAlreadyExistsException("CPF already exists");
         }
     }
 
@@ -50,7 +51,7 @@ public class ValidatorCreateStudent {
         }
 
         if (studentRepository.existsByEmail(student.getEmail())) {
-            throw new BusinessException("Email already exists");
+            throw new ResourceAlreadyExistsException("Email already exists");
         }
     }
     
@@ -61,7 +62,7 @@ public class ValidatorCreateStudent {
         }
 
         if (studentRepository.existsByPhoneNumber(student.getPhoneNumber())) {
-            throw new BusinessException("Phone number already exists");
+            throw new ResourceAlreadyExistsException("Phone number already exists");
         }
     }
 }

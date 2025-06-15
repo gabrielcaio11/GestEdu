@@ -34,13 +34,6 @@ public class ControllerExeceptionHandler {
         return ResponseEntity.status(status).body(err);
     }
 
-    @ExceptionHandler(EntityExistsException.class)
-    public ResponseEntity<ErrorMessage> handlerEntityExists(EntityExistsException e, HttpServletRequest request) {
-        HttpStatus status = HttpStatus.CONFLICT;
-        ErrorMessage err = new ErrorMessage(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
-        return ResponseEntity.status(status).body(err);
-    }
-
     @ExceptionHandler(DataBaseException.class)
     public ResponseEntity<ErrorMessage> handlerDataBase(DataBaseException e, HttpServletRequest request) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
