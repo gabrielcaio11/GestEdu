@@ -60,10 +60,4 @@ public class Student {
     @Column(name = "updated_at")
     @LastModifiedDate
     private LocalDateTime updatedAt;
-
-    public void buildRegistration() {
-        var randomNumber1 = (int) (Math.random() * 90) + 10;
-        var randomNumber2 = (int) (Math.random() * 90) + 10;
-        this.registration = String.format("%d%d-%d%d", LocalDate.now().getYear(), this.name.length(), randomNumber1, randomNumber2);
-    }
 } 
