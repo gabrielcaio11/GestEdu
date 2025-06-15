@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.gabrielcaio.gestedu.controllers.error.ResourceNotFoundException;
 import br.com.gabrielcaio.gestedu.controllers.mapper.StudentMapper;
 import br.com.gabrielcaio.gestedu.model.student.CreateStudentDTO;
 import br.com.gabrielcaio.gestedu.model.student.Student;
@@ -43,4 +44,10 @@ public class StudentService {
     public Page<Student> findAll(Pageable pageable) {
         return studentRepository.findAll(pageable);
     }
+
+    public Student getById(Long id) {
+        return studentRepository.findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException("Student not found with id: " + id));
+    }
+                
 }
